@@ -277,7 +277,29 @@ bot.catch((err, ctx) => {
   ctx.reply('Oops! Something went wrong. Please try again or use /start to restart.');
 });
 
-// Launch bot
+// ============================================
+// Express HTTP server for Render compatibility
+// ============================================
+const express = require('express');
+const app = express();
+
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.status(200).send('DeSlop bot is running.');
+});
+
+// Get port from environment variable (Render sets this)
+const PORT = process.env.PORT || 3000;
+
+// Start HTTP server
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ HTTP server running on port ${PORT}`);
+  console.log(`   Health check: http://0.0.0.0:${PORT}/health`);
+});
+
+// ============================================
+// Launch Telegram bot (polling mode)
+// ============================================
 bot.launch()
   .then(() => {
     console.log('✅ DeSlop bot is running!');
@@ -290,5 +312,16 @@ bot.launch()
   });
 
 // Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+process.once('SIGINT', () => {
+  bot.stop('SIGINT');
+  server.close(() => {
+    console.log('HTTP server closed');
+  });
+});
+
+process.once('SIGTERM', () => {
+  bot.stop('SIGTERM');
+  server.close(() => {
+    console.log('HTTP server closed');
+  });
+});
