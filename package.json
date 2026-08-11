@@ -1,0 +1,20 @@
+{
+  "name": "deslop-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for humanizing AI text and detecting AI-likeness",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "dev": "nodemon src/bot.js"
+  },
+  "keywords": ["telegram", "bot", "ai", "humanize"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "telegraf": "^4.15.3",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
