@@ -43,12 +43,13 @@ function splitText(text, maxLength = 4000) {
 }
 
 // Main menu
+// Main menu
 async function showMainMenu(ctx) {
   const session = getSession(ctx.from.id);
   session.mode = null;
   
   const message = `
-🤖 <b>Welcome to DeSlop Bot!</b>
+<b>Welcome to DeSlop Bot!</b>
 
 DeSlop helps clean up common AI-writing patterns and estimate how AI-like a piece of text appears.
 
@@ -66,7 +67,9 @@ Choose an option below:
 
   const keyboard = Markup.inlineKeyboard([
     [Markup.button.callback('✍️ Humanize Text', 'humanize')],
-    [Markup.button.callback('🔍 Check AI-Likeness', 'detect')]
+    [Markup.button.callback('🔍 Check AI-Likeness', 'detect')],
+    [Markup.button.url('More Tools', 'https://kezio.netlify.app')],
+    [Markup.button.url('Contact Developer', 'https://karojunior.netlify.app')]
   ]);
 
   await ctx.reply(message, {
